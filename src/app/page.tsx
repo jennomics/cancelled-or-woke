@@ -53,7 +53,7 @@ export default function Home() {
 
       {report?.categories.map((category) => (
         <section key={category.id}>
-          <h2>{category.label} ({category.estimatedTotal.toLocaleString()} estimated matches)</h2>
+          <h2>{category.label}{category.estimatedTotal > 0 ? ` (${category.estimatedTotal.toLocaleString()} estimated matches)` : ""}</h2>
           <p className="query">Query: {category.query}</p>
           {category.results.length === 0 ? (
             <p>No results.</p>
