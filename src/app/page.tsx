@@ -7,6 +7,7 @@ type Report = { subject: string; categories: CategoryReport[] };
 
 export default function Home() {
   const [subject, setSubject] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [report, setReport] = useState<Report | null>(null);
@@ -19,7 +20,7 @@ export default function Home() {
     try {
       const response = await fetch("/api/search", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${password}` },
         body: JSON.stringify({ subject }),
       });
       const body = await response.json();
@@ -39,6 +40,14 @@ export default function Home() {
         Enter a celebrity, band, or TV show. Results are raw web search hits per category, not verdicts.
       </p>
       <form onSubmit={onSubmit}>
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Password"
+          autoComplete="current-password"
+          required
+        />
         <input
           value={subject}
           onChange={(e) => setSubject(e.target.value)}

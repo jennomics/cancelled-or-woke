@@ -15,7 +15,8 @@ new customers and is discontinued on January 1, 2027, so it has been swapped
 for Serper, which returns Google results as JSON.
 
 1. Sign up at https://serper.dev and copy your API key.
-2. Copy `.env.example` to `.env.local` and fill in `SERPER_API_KEY`.
+2. Copy `.env.example` to `.env.local`. Fill in `SERPER_API_KEY` and `APP_PASSWORD`.
+   The page asks for `APP_PASSWORD` before each search.
 
 ```bash
 npm install
@@ -27,13 +28,14 @@ npm run dev
 1. In Vercel, Add New -> Project, then import `jennomics/cancelled-or-woke`.
 2. Leave the framework as Next.js (auto-detected) and the root directory as `./`.
 3. Under Environment Variables, add `SERPER_API_KEY` with your Serper key
-   for Production, then Deploy.
+   and `APP_PASSWORD` with a password of your choice, both for Production,
+   then Deploy.
 4. Open the deployed URL, search a test name, and check that all four
    categories return results. If the page shows a Serper error, check the
    key and your remaining Serper credits in the Serper dashboard first.
-5. Anyone with the deployed URL can use the app: it has no login or rate
-   limit of its own, and every lookup uses 4 Serper queries, so keep the
-   URL to people you intend to share it with.
+5. Every search requires `APP_PASSWORD`. There is no rate limit beyond
+   that, and every lookup uses 4 Serper queries, so share the password
+   only with people you intend to.
 
 ## Checks
 
