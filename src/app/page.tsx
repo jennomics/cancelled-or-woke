@@ -47,6 +47,10 @@ export default function Home() {
       <p className="hint">
         Enter a celebrity, band, or TV show. Each search is summarized from the listed outlets only. Summaries report what sources say, not verdicts.
       </p>
+      <p className="hint">
+        Summaries are written from titles and snippets, not full articles. Snippets can misrepresent what an article says.
+        Recommendation: treat the summary as a reading guide and open the links before trusting any claim.
+      </p>
       <form onSubmit={onSubmit}>
         <input
           type="password"
