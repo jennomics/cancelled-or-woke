@@ -64,3 +64,24 @@ ol { padding-left: 20px; margin: 0; }
 li { margin-bottom: 12px; }
 li a { color: var(--accent); }
 li p { margin: 2px 0 0; color: var(--muted); font-size: 0.95rem; }
+.settings { border: 1px solid var(--border); border-radius: 6px; padding: 8px 12px; margin-bottom: 12px; }
+.settings summary { cursor: pointer; font-weight: 600; }
+.settings .hint { margin: 8px 0; font-size: 0.9rem; }
+.spec-list { list-style: none; padding: 0; margin: 8px 0; }
+.spec-list li { margin-bottom: 6px; }
+.spec-list code, .hint code { font-size: 0.85rem; color: var(--muted); }
+.add-form { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0; }
+.add-form input { flex: 1 1 160px; }
+textarea {
+  width: 100%;
+  padding: 10px 12px;
+  font: inherit;
+  font-size: 0.95rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--fg);
+}
+button.link { background: none; color: var(--accent); padding: 4px 0; font-size: 0.95rem; }
+.summary { margin: 0 0 12px; }
+main > .settings + .error, main > .settings + section { margin-top: 24px; }

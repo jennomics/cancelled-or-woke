@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
-import { CATEGORIES } from "../categories";
 import { buildQuery, normalizeSubject, searchConcerns } from "../concern-search";
 import type { SearchProvider } from "../search-provider";
+import type { Summarizer } from "../summarize";
 
 describe("normalizeSubject", () => {
   it("trims whitespace and strips double quotes", () => {
@@ -16,34 +16,45 @@ describe("normalizeSubject", () => {
 });
 
 describe("buildQuery", () => {
-  it("quotes the subject and appends category terms", () => {
+  it("quotes the subject and appends terms", () => {
     expect(buildQuery("Some Show", "racism OR racist")).toBe('"Some Show" racism OR racist');
   });
 });
 
 describe("searchConcerns", () => {
-  it("runs one search per category and returns labeled reports", async () => {
-    const search: SearchProvider = vi.fn(async (query) => ({
-      estimatedTotal: 3,
-      results: [{ title: `t:${query}`, link: "https://example.com", snippet: "s" }],
+  const searches = [
+    { id: "a", label: "Alpha", terms: "alpha" },
+    { id: "b", label: "Beta", terms: "beta" },
+  ];
+  const hit = (link: string) => ({ title: link, link, snippet: "s" });
+
+  it("runs one search per spec, keeps only outlet links, and summarizes those", async () => {
+    const search: SearchProvider = vi.fn(async () => ({
+      estimatedTotal: 0,
+      results: [hit("https://www.reuters.com/x"), hit("https://tabloid.example/y"), hit("https://apnews.com/z")],
     }));
+    const summarize: Summarizer = vi.fn(async (subject, label, results) => `${subject}/${label}/${results.length}`);
 
-    const reports = await searchConcerns("Some Show", search);
+    const reports = await searchConcerns("Some Show", searches, ["reuters.com", "apnews.com"], search, summarize);
 
-    expect(search).toHaveBeenCalledTimes(CATEGORIES.length);
-    expect(reports.map((r) => r.id)).toEqual(CATEGORIES.map((c) => c.id));
-    expect(reports[0]).toMatchObject({
-      label: "Misogyny",
-      query: '"Some Show" misogyny OR sexism OR misogynist',
-      estimatedTotal: 3,
+    expect(search).toHaveBeenCalledTimes(2);
+    expect(search).toHaveBeenCalledWith('"Some Show" alpha');
+    expect(reports[0]).toEqual({
+      id: "a",
+      label: "Alpha",
+      query: '"Some Show" alpha',
+      summary: "Some Show/Alpha/2",
+      sources: [hit("https://www.reuters.com/x"), hit("https://apnews.com/z")],
     });
-    expect(reports[0].results[0].title).toBe('t:"Some Show" misogyny OR sexism OR misogynist');
+    expect(reports[1].id).toBe("b");
   });
 
-  it("propagates provider failures", async () => {
-    const search: SearchProvider = async () => {
-      throw new Error("Google search failed (403): quota");
-    };
-    await expect(searchConcerns("Some Show", search)).rejects.toThrow("quota");
+  it("propagates provider and summarizer failures", async () => {
+    const search: SearchProvider = async () => ({ estimatedTotal: 0, results: [] });
+    const failing: Summarizer = async () => { throw new Error("OpenAI down"); };
+    await expect(searchConcerns("S", searches, [], search, failing)).rejects.toThrow("OpenAI down");
+
+    const badSearch: SearchProvider = async () => { throw new Error("Serper search failed (403): quota"); };
+    await expect(searchConcerns("S", searches, [], badSearch, failing)).rejects.toThrow("quota");
   });
 });

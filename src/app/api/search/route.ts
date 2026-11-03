@@ -1,7 +1,10 @@
 import { NextResponse } from "next/server";
 import { isAuthorized } from "@/lib/auth";
-import { serperSearch } from "@/lib/serper-search";
 import { normalizeSubject, searchConcerns } from "@/lib/concern-search";
+import { normalizeOutlets } from "@/lib/outlets";
+import { normalizeSearches } from "@/lib/searches";
+import { serperSearch } from "@/lib/serper-search";
+import { openaiSummarize } from "@/lib/summarize";
 
 export async function POST(request: Request) {
   try {
@@ -14,14 +17,20 @@ export async function POST(request: Request) {
   }
 
   let subject: string;
+  let searches: ReturnType<typeof normalizeSearches>;
+  let outlets: string[];
   try {
-    subject = normalizeSubject((await request.json()).subject);
+    const body = await request.json();
+    subject = normalizeSubject(body.subject);
+    searches = normalizeSearches(body.searches);
+    outlets = normalizeOutlets(body.outlets);
   } catch (err) {
     return NextResponse.json({ error: (err as Error).message }, { status: 400 });
   }
 
   try {
-    return NextResponse.json({ subject, categories: await searchConcerns(subject, serperSearch) });
+    const reports = await searchConcerns(subject, searches, outlets, serperSearch, openaiSummarize);
+    return NextResponse.json({ subject, reports });
   } catch (err) {
     console.error("POST /api/search", err);
     return NextResponse.json({ error: (err as Error).message }, { status: 502 });

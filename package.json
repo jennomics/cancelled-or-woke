@@ -2,7 +2,9 @@
   "name": "cancelled-or-woke",
   "version": "0.1.0",
   "private": true,
-  "engines": { "node": ">=22" },
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -12,6 +14,7 @@
   },
   "dependencies": {
     "next": "16.2.11",
+    "openai": "^6.49.0",
     "react": "19.2.4",
     "react-dom": "19.2.4"
   },

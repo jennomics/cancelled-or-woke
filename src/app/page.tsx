@@ -1,13 +1,21 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import type { CategoryReport } from "@/lib/concern-search";
+import type { SearchReport } from "@/lib/concern-search";
+import { DEFAULT_OUTLETS } from "@/lib/outlets";
+import { DEFAULT_SEARCHES, SearchSpec } from "@/lib/searches";
+import { OutletEditor } from "./components/OutletEditor";
+import { ReportSection } from "./components/ReportSection";
+import { SearchList } from "./components/SearchList";
+import { useStoredState } from "./components/use-stored-state";
 
-type Report = { subject: string; categories: CategoryReport[] };
+type Report = { subject: string; reports: SearchReport[] };
 
 export default function Home() {
   const [subject, setSubject] = useState("");
   const [password, setPassword] = useState("");
+  const [custom, setCustom] = useStoredState<SearchSpec[]>("customSearches", []);
+  const [outlets, setOutlets] = useStoredState<string[]>("outlets", [...DEFAULT_OUTLETS]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [report, setReport] = useState<Report | null>(null);
@@ -21,7 +29,7 @@ export default function Home() {
       const response = await fetch("/api/search", {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${password}` },
-        body: JSON.stringify({ subject }),
+        body: JSON.stringify({ subject, searches: [...DEFAULT_SEARCHES, ...custom], outlets }),
       });
       const body = await response.json();
       if (!response.ok) throw new Error(body.error ?? `Request failed (${response.status})`);
@@ -37,7 +45,7 @@ export default function Home() {
     <main>
       <h1>Concern Search</h1>
       <p className="hint">
-        Enter a celebrity, band, or TV show. Results are raw web search hits per category, not verdicts.
+        Enter a celebrity, band, or TV show. Each search is summarized from the listed outlets only. Summaries report what sources say, not verdicts.
       </p>
       <form onSubmit={onSubmit}>
         <input
@@ -58,26 +66,12 @@ export default function Home() {
         <button type="submit" disabled={loading}>{loading ? "Searching…" : "Search"}</button>
       </form>
 
+      <SearchList custom={custom} onChange={setCustom} />
+      <OutletEditor outlets={outlets} onChange={setOutlets} />
+
       {error && <div className="error" role="alert">{error}</div>}
 
-      {report?.categories.map((category) => (
-        <section key={category.id}>
-          <h2>{category.label}{category.estimatedTotal > 0 ? ` (${category.estimatedTotal.toLocaleString()} estimated matches)` : ""}</h2>
-          <p className="query">Query: {category.query}</p>
-          {category.results.length === 0 ? (
-            <p>No results.</p>
-          ) : (
-            <ol>
-              {category.results.map((result) => (
-                <li key={result.link}>
-                  <a href={result.link} target="_blank" rel="noopener noreferrer">{result.title}</a>
-                  <p>{result.snippet}</p>
-                </li>
-              ))}
-            </ol>
-          )}
-        </section>
-      ))}
+      {report?.reports.map((r) => <ReportSection key={r.id} report={r} />)}
     </main>
   );
 }
