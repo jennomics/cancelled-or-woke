@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { isAuthorized } from "@/lib/auth";
-import { googleSearch } from "@/lib/google-search";
+import { serperSearch } from "@/lib/serper-search";
 import { normalizeSubject, searchConcerns } from "@/lib/concern-search";
 
 export async function POST(request: Request) {
@@ -21,7 +21,7 @@ export async function POST(request: Request) {
   }
 
   try {
-    return NextResponse.json({ subject, categories: await searchConcerns(subject, googleSearch) });
+    return NextResponse.json({ subject, categories: await searchConcerns(subject, serperSearch) });
   } catch (err) {
     console.error("POST /api/search", err);
     return NextResponse.json({ error: (err as Error).message }, { status: 502 });
