@@ -83,7 +83,7 @@ export default function Home() {
             required
           />
         </label>
-        <p className="meta">Or read the name from a photo. A name, logo, poster, or caption works. A face alone does not</p>
+        <p className="meta">Or search using a photo. A name, logo, poster, or caption works. A face alone does not</p>
         <PhotoInput password={password} onSubject={(s) => { setSubject(s); setError(null); }} onError={setError} />
         <div className="actions" style={{ marginTop: "var(--s-3)" }}>
           <button type="submit" className="primary" disabled={running !== null}>Search</button>
