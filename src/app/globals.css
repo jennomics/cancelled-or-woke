@@ -108,16 +108,16 @@ h2 {
 
 p { max-width: 52ch; }
 
-.body-72 { color: var(--ink-72); }
+.body-72 { color: var(--ink); }
 
 .meta {
   font-family: var(--mono);
   font-weight: 400;
-  font-size: 11px;
+  font-size: 12px;
   line-height: 18px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--ink-50);
+  color: var(--ink-72);
 }
 
 a {
@@ -154,7 +154,7 @@ input, textarea {
   transition: border-color var(--dur-fast) var(--ease);
 }
 textarea { font-family: var(--mono); font-weight: 400; font-size: 15px; line-height: 21px; resize: vertical; }
-input::placeholder, textarea::placeholder { color: var(--ink-35); }
+input::placeholder, textarea::placeholder { color: var(--ink-50); }
 input:focus, textarea:focus { outline: none; border-bottom-color: var(--live); }
 input:disabled, textarea:disabled { color: var(--ink-35); border-bottom-color: var(--rule); }
 
@@ -201,9 +201,9 @@ button.tertiary:hover { text-decoration-color: var(--ink); }
   line-height: 21px;
 }
 .rows li:last-child { border-bottom: 1px solid var(--rule); }
-.rows .meta { text-transform: none; letter-spacing: 0; font-size: 13px; white-space: nowrap; }
+.rows .meta { text-transform: none; letter-spacing: 0; font-size: 14px; white-space: nowrap; }
 .rows .grow { flex: 1 1 auto; min-width: 0; }
-.rows .terms { display: block; color: var(--ink-50); font-family: var(--mono); font-weight: 400; font-size: 13px; line-height: 18px; overflow-wrap: anywhere; }
+.rows .terms { display: block; color: var(--ink-72); font-family: var(--mono); font-weight: 400; font-size: 14px; line-height: 20px; overflow-wrap: anywhere; }
 
 /* Disclosure: a ruled row whose right-hand word is the state. */
 details > summary {
@@ -219,7 +219,7 @@ details > summary {
   line-height: 30px;
 }
 details > summary::-webkit-details-marker { display: none; }
-details > summary::after { content: "show"; font-family: var(--mono); font-weight: 400; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-50); }
+details > summary::after { content: "show"; font-family: var(--mono); font-weight: 400; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-72); }
 details[open] > summary::after { content: "hide"; }
 details > .inner { padding: var(--s-2) 0 var(--s-1); }
 .add-form .field { margin-bottom: var(--s-2); }
@@ -233,7 +233,7 @@ details > .inner { padding: var(--s-2) 0 var(--s-1); }
   animation: fill-in var(--dur) var(--ease);
   transform-origin: top;
 }
-.block .meta { color: var(--paper-72); }
+.block .meta { color: var(--paper); }
 .block .task { font-size: 26px; line-height: 32px; font-weight: 300; margin: var(--s-1) 0; }
 .block .num { font-family: var(--mono); font-weight: 400; font-size: 24px; line-height: 32px; text-align: right; }
 .block .head { display: flex; justify-content: space-between; align-items: baseline; }
@@ -249,5 +249,5 @@ details > .inner { padding: var(--s-2) 0 var(--s-1); }
 .report { border-top: 1px solid var(--rule); padding-top: var(--s-3); margin-top: var(--s-5); }
 .report h2 { margin-bottom: var(--s-1); }
 .report .query { margin-bottom: var(--s-3); overflow-wrap: anywhere; text-transform: none; letter-spacing: 0; }
-.report .summary { color: var(--ink-72); margin-bottom: var(--s-4); }
+.report .summary { color: var(--ink); margin-bottom: var(--s-4); }
 .report .rows + .actions { margin-top: var(--s-1); }
