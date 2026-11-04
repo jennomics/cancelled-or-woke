@@ -5,6 +5,7 @@ import type { SearchReport } from "@/lib/concern-search";
 import { DEFAULT_OUTLETS } from "@/lib/outlets";
 import { DEFAULT_SEARCHES, SearchSpec } from "@/lib/searches";
 import { OutletEditor } from "./components/OutletEditor";
+import { PhotoInput } from "./components/PhotoInput";
 import { ReportSection } from "./components/ReportSection";
 import { SearchList } from "./components/SearchList";
 import { useStoredState } from "./components/use-stored-state";
@@ -82,7 +83,9 @@ export default function Home() {
             required
           />
         </label>
-        <div className="actions">
+        <p className="meta">Or read the name from a photo. A name, logo, poster, or caption works. A face alone does not</p>
+        <PhotoInput password={password} onSubject={(s) => { setSubject(s); setError(null); }} onError={setError} />
+        <div className="actions" style={{ marginTop: "var(--s-3)" }}>
           <button type="submit" className="primary" disabled={running !== null}>Search</button>
         </div>
       </form>

@@ -61,3 +61,12 @@ reported to expire after 6 months.
 
 OpenAI bills per token. With `gpt-4.1-mini` and ten short snippets per topic, a
 lookup costs well under one cent. Verify on platform.openai.com.
+
+## Photos
+
+The Use a photo button accepts an image from the camera or library, shrinks it
+in the browser to 1024px, and asks OpenAI for the name to search. The model reads
+names, logos, posters, title cards, and captions. OpenAI's models refuse to
+identify a person from a face alone, so a plain portrait comes back as "Could not
+read a name from this photo". The name lands in the Subject field; Search still
+has to be pressed.
