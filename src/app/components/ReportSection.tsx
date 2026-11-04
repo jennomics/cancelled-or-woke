@@ -12,24 +12,26 @@ export function ReportSection({ report }: { report: SearchReport }) {
   const hidden = report.sources.length - TOP;
 
   return (
-    <section>
+    <section className="report">
       <h2>{report.label}</h2>
-      <p className="query">Query: {report.query}</p>
+      <p className="meta query">Query · {report.query}</p>
       <p className="summary">{report.summary}</p>
       {shown.length > 0 && (
-        <ol>
+        <ol className="rows">
           {shown.map((s) => (
             <li key={s.link}>
-              <a href={s.link} target="_blank" rel="noopener noreferrer">{s.title}</a>
-              <p>{hostnameOf(s.link)}</p>
+              <a className="grow" href={s.link} target="_blank" rel="noopener noreferrer">{s.title}</a>
+              <span className="meta">{hostnameOf(s.link)}</span>
             </li>
           ))}
         </ol>
       )}
       {hidden > 0 && (
-        <button type="button" className="link" onClick={() => setExpanded(!expanded)}>
-          {expanded ? "Show top 3" : `Show all ${report.sources.length}`}
-        </button>
+        <div className="actions">
+          <button type="button" className="tertiary" onClick={() => setExpanded(!expanded)}>
+            {expanded ? "Show top 3" : `Show all ${report.sources.length}`}
+          </button>
+        </div>
       )}
     </section>
   );
