@@ -53,7 +53,7 @@ export default function Home() {
 
   return (
     <main>
-      <h1>Concern Search</h1>
+      <h1>Cancelled or Woke</h1>
       <p className="body-72">
         Enter a celebrity, band, or TV show. Each search is summarized from the listed outlets only. Summaries report what sources say, not verdicts.
       </p>

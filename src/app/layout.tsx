@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Concern Search",
+  title: "Cancelled or Woke",
   description: "Search the web for reported concerns about a celebrity, band, or TV show.",
 };
 
