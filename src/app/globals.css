@@ -70,6 +70,7 @@
 }
 
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 
 html { background: var(--paper); }
 
@@ -169,6 +170,7 @@ button {
   border: 1px solid var(--ink);
   border-radius: 0;
   cursor: pointer;
+  white-space: nowrap;
   transition: color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
 }
 button:disabled { color: var(--ink-35); border-color: var(--rule); cursor: default; }
